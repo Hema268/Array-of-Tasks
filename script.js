@@ -1,14 +1,29 @@
-let userInput= document.getElementById('userinput');
-let add= document.getElementById('add');
-let noteslist= document.getElementById('notesfile');
+document.getElementById('add').addEventListener('click', addNotes);
+document.getElementById('userinput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        addNotes();
+    }
+});
 
-function addNotes(){
-    let inputField = userInput.value.trim();
-    if (inputField != ""){
-        let list  = document.createElement('li');
-        list.textContent = userInput.value.trim();
-        noteslist.appendChild(list);
-        console.log(userInput.value)
-        }
-    
+function addNotes() {
+    const userInput = document.getElementById('userinput');
+    const notesList = document.getElementById('notesfile');
+    const inputValue = userInput.value.trim();
+
+    if (inputValue !== "") {
+        const listItem = document.createElement('li');
+        listItem.textContent = inputValue;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.className = 'remove';  
+        removeButton.addEventListener('click', () => {
+            notesList.removeChild(listItem);
+        });
+
+        listItem.appendChild(removeButton);
+        notesList.appendChild(listItem);
+
+        userInput.value = ""; // Clear the input field after adding the note
+    }
 }
